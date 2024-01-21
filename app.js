@@ -1,30 +1,87 @@
 const express = require('express');
+const mysql = require('mysql');
 const app = express();
 const port = 3000;
 
-// Middleware to parse the incoming request body
+// MySQL database connection
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'Cancer_0716', 
+    database: 'gwc_email_collector'
+});
+
+connection.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL Database!');
+    
+});
+
 app.use(express.urlencoded({ extended: true }));
 
-// Route for the landing page
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
     res.send(`
-        <form action="/submit-email" method="post">
-            <label for="email">Enter your BU Email:</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">Submit</button>
-        </form>
-    `);
+    <html>
+            <head>
+                <title>BUGWC Attendance</title>
+                <link rel="stylesheet" type="text/css" href="/css/style.css">
+            </head>
+            <body>
+                <header>
+                    
+                </header>
+                <img src="/css/frontend_elements/gwcbu_logo.png" alt="gwcLogo" class="top-left-image">
+                <div class="form-container"> 
+                    <form action="/submit-email" method="post" >
+                        <div class="icon-container">
+                            <img src="/css/frontend_elements/nameIcon.png" alt="nameIcon" class="icon">
+                            <input type="name" id="name" name="name" placeholder="Name" required>
+                        </div>
+                        <div class="icon-container">
+                            <img src="/css/frontend_elements/emailIcon.png" alt="emailIcon" class="icon">
+                            <input type="email" id="email" name="email" placeholder="BU Email" required>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                <footer id="main-footer">
+                  
+                </footer>
+            </body>
+    </html>
+`);
 });
 
-// Route to handle form submission
+
 app.post('/submit-email', (req, res) => {
     const email = req.body.email;
-    // Here, you would typically add code to insert the email into a database
-    console.log(email); // Just for demonstration purposes
-    res.send('Email received: ' + email);
+    const name = req.body.name;
+    
+    const query = 'INSERT INTO emailList (email) VALUES (?)';
+
+    connection.query(query, [email], (err, result) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).send('Error saving email');
+        }
+        res.send(`
+        <html>
+            <head>
+                <title>Thank you for attending!</title>
+                <link rel="stylesheet" type="text/css" href="/css/style.css">
+            </head>
+        
+            <body>
+                <p>Thank you for attending the event, ${name}!</p>
+            </body>
+        </html>
+        `);
+    });
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+

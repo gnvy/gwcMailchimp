@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('frontend_elements/desktop_bkgd.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    height: 100%; /* Ensures the full height of the page is considered */
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     
+}
+
+.top-left-image {
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    width: 300px;  
+    height: auto;
+}
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    border-color: red;
+    width: 1000px;
+}
+
+.icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.icon {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+form {
+    margin: 20px;
+    padding: 20px;
+    flex-direction: row;
+    border: 2px solid red;
+    border-radius: 10px;
+
+}
+
+input {
+    border-radius: 50px;
+    height: 40px;
+    padding: 10 20px;
+    width: 300px; 
+    margin: 8px 0;
+    background-color: #003046;
+    color: #FCE688;
+    
+}
+input::placeholder {
+    color: #FCE688; 
+    font-family: 'Roboto', sans-serif;
+    font-size:15px;
+}
+
+button {
+    background-color: #003046;
+    border-radius: 50px;
+    margin: 10px;
+    padding: 10 20px;
+    border: none;
+    color: #FFF9E2; 
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    font-size:15px;
+}
